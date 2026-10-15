@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, inject, provideAppInitializer, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withRouterConfig } from '@angular/router';
+import { provideFormlyCore } from '@ngx-formly/core';
 import { provideTranslateLoader, provideTranslateService } from '@ngx-translate/core';
 import { CoreConfigService, NgCoreTranslateService, provideCore, RemoteAutocompleteService } from '@rero/ng-core';
 import { providePrimeNG } from 'primeng/config';
@@ -15,11 +16,17 @@ import { LanguageValuePipe } from './pipe/language-value.pipe';
 import { primeNGSonarConfig } from './primeng-config';
 import { UIAutocompleteService } from './ui-autocomplete.service';
 import { routes } from './app.routes';
+import { ColorInputComponent } from './core/color-input/color-input.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideCore(),
+    provideFormlyCore([
+      {
+        types: [{ name: 'color', component: ColorInputComponent, wrappers: ['form-field'] }],
+      },
+    ]),
     provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always' })),
     provideTranslateService({
       loader: provideTranslateLoader(AppTranslateLoader),
